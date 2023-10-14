@@ -1,8 +1,16 @@
+
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import MapView, { Heatmap } from 'react-native-maps';
 import { PaperProvider } from 'react-native-paper';
-import SearchLocBar from './components/SearchLocBar.js'
+import SearchLocBar from './components/SearchLocBar.js';
+import Dropdown from './components/Dropdown.js';
+import BottomNav from './components/BottomNav.js';
+
+
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import HomeScreen from './HomeScreen'; // Replace with your screen components
+
 
 export default function App() {
   const data = [
@@ -23,6 +31,12 @@ export default function App() {
     { latitude: 37.783842, longitude: -122.439591 },
     { latitude: 37.784147, longitude: -122.439668 },
     { latitude: 37.784206, longitude: -122.439686 }
+  ];
+
+  const dropdownOptions = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
   ];
 
   return (
@@ -52,8 +66,14 @@ export default function App() {
           />
         </MapView>
         <SafeAreaView style={styles.searchBarContainer}>
-          <SearchLocBar style={styles.searchBar} />
+          <Dropdown
+            options={dropdownOptions}
+            onSelect={(selectedOption) => console.log(selectedOption)}
+          />
+          <BottomNav />
         </SafeAreaView>
+
+  
       </View>
     </PaperProvider>
   );
@@ -81,4 +101,5 @@ const styles = StyleSheet.create({
     right: 10,
     zIndex: 1
   }
+  
 });
