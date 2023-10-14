@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import MapView, { Heatmap } from 'react-native-maps';
+import { PaperProvider } from 'react-native-paper';
+import SearchLocBar from './components/SearchLocBar.js'
 
 export default function App() {
   const data = [
@@ -24,29 +26,36 @@ export default function App() {
   ];
 
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        provider='google'
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        <Heatmap
-          points={data}
-          radius={40}
-          opacity={0.6}
-          gradient={{
-            colors: ["#00BFFF", "#FFA500", "#FF0000"],
-            startPoints: [0.1, 0.4, 1],
-            colorMapSize: 256
+    <PaperProvider>
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          provider='google'
+          showsMyLocationButton={true}
+          showsUserLocation={true}
+          initialRegion={{
+            latitude: 33.7490,
+            longitude: -84.3880,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
           }}
-        />
-      </MapView>
-    </View>
+        >
+          <Heatmap
+            points={data}
+            radius={40}
+            opacity={0.6}
+            gradient={{
+              colors: ["#00BFFF", "#FFA500", "#FF0000"],
+              startPoints: [0.1, 0.4, 1],
+              colorMapSize: 256
+            }}
+          />
+        </MapView>
+        <SafeAreaView style={styles.searchBarContainer}>
+          <SearchLocBar style={styles.searchBar} />
+        </SafeAreaView>
+      </View>
+    </PaperProvider>
   );
 }
 
@@ -58,4 +67,18 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  searchBarContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 10,
+    right: 10,
+    zIndex: 1
+  },
+  searchBar: {
+    position: 'absolute',
+    top: 10, // Adjust the value as per your needs
+    left: 10,
+    right: 10,
+    zIndex: 1
+  }
 });
