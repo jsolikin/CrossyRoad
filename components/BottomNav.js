@@ -1,26 +1,28 @@
+
 import MapView, { Heatmap } from 'react-native-maps';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import MapComponent from './MapComponent';
 import AccountComponent from './AccountComponent';
+import UpdatesComponent from './UpdatesComponent';
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
+import SavedComponent from './SavedComponent';
 
-
-
+//SavedComponent
 const MusicRoute = () => <MapComponent />;
 
-const FavoriteRoute = () => <SafeAreaView style={styles.safeArea}><Text>Favorites</Text></SafeAreaView>;
+const RecentsRoute = () => <SafeAreaView style={styles.safeArea}><UpdatesComponent /></SafeAreaView>;
 
-const RecentsRoute = () => <Text>Recents</Text>;
+const FavoriteRoute = () => <SafeAreaView style={styles.safeArea}><SavedComponent/></SafeAreaView>;
 
-const NotificationsRoute = () => <AccountComponent />;
+const NotificationsRoute = () => <SafeAreaView style={styles.safeArea}><AccountComponent /></SafeAreaView>;
 
 const BottomNav = () => {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
         //
         { key: 'map', title: 'Map', focusedIcon: 'map', unfocusedIcon: 'map-outline' },
-        { key: 'recents', title: 'History', focusedIcon: 'clipboard-text-clock', unfocusedIcon: 'history'},
+        { key: 'recents', title: 'Updates', focusedIcon: 'tooltip', unfocusedIcon: 'tooltip-outline'},
         { key: 'Favorites', title: 'Saved', focusedIcon: 'bookmark' , unfocusedIcon: 'bookmark-outline' },
         { key: 'notifications', title: 'Account', focusedIcon: 'account-cowboy-hat', unfocusedIcon: 'account' },
     ]);
