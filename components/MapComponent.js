@@ -1,13 +1,34 @@
 import React, { useState } from 'react';
 import MapView, { Heatmap, Marker, Callout } from 'react-native-maps';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import Mapdata from './Mapdata';
 import { Avatar, Card, IconButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons'; // Or whichever icon library you use
-import Dropdown from './Dropdown';
+import DropDown from "react-native-paper-dropdown";
+
 
 
 const MapComponent = () => {
+    const [showDropDown, setShowDropDown] = useState(false);
+    const [dest, setDest] = useState("");
+    const destList = [
+        {
+            label: "North Avenue Apartments",
+            value: "north avenue apt",
+        },
+        {
+            label: "Georgia Tech Library",
+            value: "gt library",
+        },
+        {
+            label: "Georgia Tech Student Center",
+            value: "gt student center",
+        },
+        {
+            label: "8th Street Apartment",
+            value: "8th st apt",
+        },
+    ];
     const [region, setRegion] = useState({
         latitude: 33.7490,
         longitude: -84.3880,
@@ -73,7 +94,21 @@ const MapComponent = () => {
                     ))
                 )}
             </MapView>
-            <Dropdown />
+            <SafeAreaView edges={['top', 'right', 'bottom', 'left']}>
+                <View style={{ marginLeft: 20, marginRight: 20, borderRadius: 25, overflow: 'hidden' }}>
+                    <DropDown
+                        label={"Where do you want to go?"}
+                        mode={"flat"}
+                        visible={showDropDown}
+                        showDropDown={() => setShowDropDown(true)}
+                        onDismiss={() => setShowDropDown(false)}
+                        value={dest}
+                        setValue={setDest}
+                        list={destList}
+                    />
+                </View>
+            </SafeAreaView>
+
         </View>
     );
 };
