@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Appbar, List, Switch } from 'react-native-paper';
+import { Appbar, List, Switch, ScrollView } from 'react-native-paper';
 
 function AccountComponent() {
   const [notificationEnabled, setNotificationEnabled] = useState(false);

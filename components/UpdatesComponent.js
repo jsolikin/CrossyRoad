@@ -3,8 +3,16 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Appbar, Card, Title, Paragraph, Text, Button, List } from 'react-native-paper';
 import MapView, { Marker } from 'react-native-maps';
 import Mapdata from './Mapdata';
+import {
+  withDelay,
+  withRepeat,
+  withSequence,
+  withTiming,
+  useSharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
-function UpdatesComponent(){
+function UpdatesComponent() {
   const [loadedIncidents, setLoadedIncidents] = useState(5);
 
   const loadMoreIncidents = () => {
@@ -17,6 +25,20 @@ function UpdatesComponent(){
   const horizontalIncidents = incidentsToShow.slice(0, 4);
   const verticalIncidents = incidentsToShow.slice(4);
 
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: withDelay(
+      2000 * Math.random(),
+      withRepeat(
+        withSequence(
+          withTiming(0.4, { duration: 1000 }),
+          withTiming(1, { duration: 1000 })
+        ),
+        -1,
+        true
+      ),
+    ),
+  }));
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Appbar.Header>
@@ -25,7 +47,7 @@ function UpdatesComponent(){
 
       <ScrollView horizontal style={styles.scrollSection}>
         {horizontalIncidents.map((item, index) => (
-          <Card key={index} style={styles.card}>
+          <Card key={index} style={[styles.card, animatedStyle]}>
             <Card.Content>
               <Title>Incident at {item.location}</Title>
               <MapView
@@ -58,7 +80,6 @@ function UpdatesComponent(){
             key={index}
             title={`Incident at ${item.location}`}
             description={item.ucrLiteral}
-            
           />
         ))}
         {loadedIncidents < allIncidents.length && (

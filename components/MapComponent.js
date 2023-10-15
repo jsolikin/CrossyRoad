@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Mapdata from './Mapdata';
 import { Avatar, Card, IconButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons'; // Or whichever icon library you use
-
+import Dropdown from './Dropdown';
 
 
 const MapComponent = () => {
@@ -18,64 +18,72 @@ const MapComponent = () => {
     const ZOOM_THRESHOLD = 0.05;  // Adjust this based on your preference
 
     return (
-        <MapView
-            style={styles.map}
-            provider='google'
-            showsMyLocationButton={true}
-            showsUserLocation={true}
-            initialRegion={region}
-            onRegionChangeComplete={setRegion}
-        >
-            {region.latitudeDelta > ZOOM_THRESHOLD ? (
-                <Heatmap
-                    points={Mapdata}
-                    radius={100}
-                    opacity={0.9}
-                    gradient={{
-                        colors: ["#0000FF", "#00BFFF", "#FFFF00", "#FFA500", "#FF0000"],
-                        startPoints: [0.05, 0.2, 0.4, 0.6, 0.8],
-                        colorMapSize: 256,
-                    }}
-                />
-            ) : (
-                Mapdata.map((point, index) => (
-                    <Marker
-                        key={index}
-                        coordinate={{ latitude: point.latitude, longitude: point.longitude }}
-                        
-                    >
-                        <Callout tooltip>
+        <View style={styles.container}>
+            <MapView
+                style={styles.map}
+                provider='google'
+                showsMyLocationButton={true}
+                showsUserLocation={true}
+                initialRegion={region}
+                onRegionChangeComplete={setRegion}
+            >
+                {region.latitudeDelta > ZOOM_THRESHOLD ? (
+                    <Heatmap
+                        points={Mapdata}
+                        radius={100}
+                        opacity={0.9}
+                        gradient={{
+                            colors: ["#0000FF", "#00BFFF", "#FFFF00", "#FFA500", "#FF0000"],
+                            startPoints: [0.05, 0.2, 0.4, 0.6, 0.8],
+                            colorMapSize: 256,
+                        }}
+                    />
+                ) : (
+                    Mapdata.map((point, index) => (
+                        <Marker
+                            key={index}
+                            coordinate={{ latitude: point.latitude, longitude: point.longitude }}
+                        // if 
+                        >
+                            <Callout tooltip>
 
-                            <View style={styles.calloutView}>
-                                <Card.Title
-                                    title={point.ucrLiteral}
-                                    titleStyle={{ fontWeight: 'bold' }}
-                                    subtitle={
-                                        <View>
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Icon name="ios-time" size={20} color="#000" />
-                                                <Text style={{ marginLeft: 5 }}>{point.occurTime}</Text>
+                                <View style={styles.calloutView}>
+                                    <Card.Title
+                                        title={point.ucrLiteral}
+                                        titleStyle={{ fontWeight: 'bold' }}
+                                        subtitle={
+                                            <View>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Icon name="ios-time" size={20} color="#000" />
+                                                    <Text style={{ marginLeft: 5 }}>{point.occurTime}</Text>
+                                                    <Icon name="ios-calendar" style={{ marginLeft: 10 }} size={20} color="#000" />
+                                                    <Text style={{ marginLeft: 5 }}>{point.date}</Text>
+                                                </View>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+                                                    <Icon name="ios-location" size={20} color="#000" />
+                                                    <Text style={{ marginLeft: 5 }}>{point.location}</Text>
+                                                </View>
                                             </View>
-                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-                                                <Icon name="ios-location" size={20} color="#000" />
-                                                <Text style={{ marginLeft: 5 }}>{point.location}</Text>
-                                            </View>
-                                        </View>
 
-                                    }
-                                />
-                            </View>
-                        </Callout>
-                    </Marker>
-                ))
-            )}
-        </MapView>
+                                        }
+                                    />
+                                </View>
+                            </Callout>
+                        </Marker>
+                    ))
+                )}
+            </MapView>
+            <Dropdown />
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     map: {
         ...StyleSheet.absoluteFillObject,
+    },
+    container: {
+        flex: 1,
     },
     calloutView: {
         backgroundColor: 'white',

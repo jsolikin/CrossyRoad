@@ -5,6 +5,8 @@ import SearchLocBar from './components/SearchLocBar.js';
 import Dropdown from './components/Dropdown.js';
 import BottomNav from './components/BottomNav.js';
 
+
+
 export default function App() {
   const data = [
     // Your data points here
@@ -18,6 +20,8 @@ export default function App() {
 
   ];
 
+
+  //////Take out dropdowns?
   const dropdownOptions = [
     // Your dropdown options here
   ];
@@ -51,5 +55,6 @@ const styles = StyleSheet.create({
     left: 10, //10
     right: 10, //10
     zIndex: 1,//1
+
   },
 });

@@ -1,38 +1,34 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { View } from 'react-native';
-import { Button, Menu } from 'react-native-paper';
+import { Button, Menu, Divider, PaperProvider } from 'react-native-paper';
 
-const Dropdown = ({ options, onSelect }) => {
-    const [visible, setVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
+const Dropdown = () => {
+  const [visible, setVisible] = React.useState(false);
 
-    const handleSelect = (option) => {
-        setSelectedOption(option);
-        onSelect(option);
-        setVisible(false);
-    };
+  const openMenu = () => setVisible(true);
 
-    return (
-        <View>
-            <Menu
-                visible={visible}
-                onDismiss={() => setVisible(false)}
-                anchor={
-                    <Button onPress={() => setVisible(true)}>
-                        {selectedOption ? selectedOption.label : 'Select an option'}
-                    </Button>
-                }
-            >
-                {options.map((option) => (
-                    <Menu.Item
-                        key={option.value}
-                        onPress={() => handleSelect(option)}
-                        title={option.label}
-                    />
-                ))}
-            </Menu>
-        </View>
-    );
+  const closeMenu = () => setVisible(false);
+
+  return (
+    <PaperProvider>
+      <View
+        style={{
+          paddingTop: 50,
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={<Button onPress={openMenu}>Show menu</Button>}>
+          <Menu.Item onPress={() => {}} title="Item 1" />
+          <Menu.Item onPress={() => {}} title="Item 2" />
+          <Divider />
+          <Menu.Item onPress={() => {}} title="Item 3" />
+        </Menu>
+      </View>
+    </PaperProvider>
+  );
 };
 
 export default Dropdown;
